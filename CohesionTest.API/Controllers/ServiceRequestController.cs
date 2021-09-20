@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CohesionTest.Models;
+using CohesionTest.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,36 +14,79 @@ namespace CohesionTest.API.Controllers
     [ApiController]
     public class ServiceRequestController : ControllerBase
     {
-        // GET: api/<ServiceRequestController>
+        private readonly IServiceRequestService serviceRequestService;
+
+        public ServiceRequestController(IServiceRequestService serviceRequestService)
+        {
+            this.serviceRequestService = serviceRequestService ?? throw new ArgumentNullException(nameof(serviceRequestService));
+        }
+
+        // GET: api/v1/<ServiceRequestController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<ServiceRequest[]> Get()
         {
-            return new string[] { "value1", "value2" };
+            var serviceRequests = this.serviceRequestService.GetAllServiceRequests();
+
+            if (serviceRequests.Length > 0)
+            {
+                return serviceRequests;
+            }
+            else
+            {
+                return new NoContentResult();
+            }
         }
 
-        // GET api/<ServiceRequestController>/5
+        // GET api/v1/<ServiceRequestController>/727b376b-79ae-498e-9cff-a9f51b848ea4
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<ServiceRequest> Get(Guid id)
         {
-            return "value";
+            // In hindsight I should have used the "TryGet".net pattern.
+            var serviceRequest = this.serviceRequestService.GetServiceRequest(id);
+
+            if (serviceRequest != null)
+            {
+                return serviceRequest;
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        // POST api/<ServiceRequestController>
+        // POST api/v1/<ServiceRequestController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] ServiceRequest serviceRequest)
         {
+            // bad request is returned automatically by model validation
+            var id = await this.serviceRequestService.CreateServiceRequest(serviceRequest);
+
+            return CreatedAtAction(nameof(Post), serviceRequest with { Id = id });
         }
 
-        // PUT api/<ServiceRequestController>/5
+        // PUT api/v1/<ServiceRequestController>/727b376b-79ae-498e-9cff-a9f51b848ea4
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<ServiceRequest>> Put(Guid id, [FromBody] UpdateServiceRequest updateServiceRequest)
         {
+            // bad request is returned automatically by model validation
+            var updatedServiceRequest = await this.serviceRequestService.UpdateServiceRequestAsync(id, updateServiceRequest);
+            if (updateServiceRequest != null)
+            {
+                return Ok(updateServiceRequest);
+            }
+            return NotFound();
         }
 
-        // DELETE api/<ServiceRequestController>/5
+        // DELETE api/v1/<ServiceRequestController>/727b376b-79ae-498e-9cff-a9f51b848ea4
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            if (await this.serviceRequestService.DeleteServiceRequestAsync(id))
+            {
+                // Just noticed documentation said 201, but I'm pretty sure this wasn't created.
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }

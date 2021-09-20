@@ -62,28 +62,32 @@ namespace CohesionTest.Services
         /// Updates a ServiceRequest.
         /// </summary>
         /// <param name="id">ServiceRequest Id</param>
-        /// <param name="serviceRequest">Updated ServiceRequest</param>
-        /// <returns>Bool value indicating if the ServiceRequest was updated successfully.</returns>
-        public async Task<bool> UpdateServiceRequestAsync(Guid id, Models.ServiceRequest serviceRequest)
+        /// <param name="updateServiceRequest">Updated ServiceRequest</param>
+        /// <returns>Update service request or null if there was nothing to update.</returns>
+        public async Task<Models.ServiceRequest> UpdateServiceRequestAsync(Guid id, Models.UpdateServiceRequest updateServiceRequest)
         {
             // Avoid attempt to update row if it doesn't exist.
             // Update would insert it if it didn't exist and we don't want that.
             var dbServiceRequest = this.db.ServiceRequests.FirstOrDefault(sr => sr.Id == id);
             if (dbServiceRequest == null)
             {
-                return false;
+                return null;
             }
 
-            if (serviceRequest.CurrentStatus == CurrentStatusEnum.Complete && ((CurrentStatusEnum)dbServiceRequest.CurrentStatus) != CurrentStatusEnum.Complete)
+            if (updateServiceRequest.CurrentStatus == CurrentStatusEnum.Complete && ((CurrentStatusEnum)dbServiceRequest.CurrentStatus) != CurrentStatusEnum.Complete)
             {
                 // TODO: Send email
             }
 
-            dbServiceRequest = null;
+            dbServiceRequest.Description = updateServiceRequest.Description;
+            dbServiceRequest.CurrentStatus = updateServiceRequest.CurrentStatus;
+            dbServiceRequest.LastModifiedBy = updateServiceRequest.LastModifiedBy;
+            dbServiceRequest.LastModifiedDate = updateServiceRequest.LastModifiedDate;
+            await this.db.SaveChangesAsync();
 
-            var updatedDbServiceRequest = this.ConvertModelToDbModel(serviceRequest);
-            this.db.ServiceRequests.Update(updatedDbServiceRequest);
-            return (await this.db.SaveChangesAsync() > 0);
+            var serviceRequest = this.ConvertDbModelToModel(dbServiceRequest);
+
+            return serviceRequest;
         }
 
         /// <summary>

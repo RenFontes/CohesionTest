@@ -12,6 +12,6 @@ namespace CohesionTest.Services
         Task<bool> DeleteServiceRequestAsync(Guid id);
         Models.ServiceRequest[] GetAllServiceRequests();
         Models.ServiceRequest GetServiceRequest(Guid id);
-        Task<bool> UpdateServiceRequestAsync(Guid id, Models.ServiceRequest serviceRequest);
+        Task<Models.ServiceRequest> UpdateServiceRequestAsync(Guid id, Models.UpdateServiceRequest updateServiceRequest);
     }
 }

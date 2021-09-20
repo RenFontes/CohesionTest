@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace CohesionTest.Tests
 {
     // I prefer TDD but for a 3 hour test I'd rather not do that. 🙊
+    // Tests weren't that good, next time I have to test something related to the database I'll use a repository pattern or read more on how to test with entity framework directly.
     [TestClass]
     public class ServiceRequestServiceTests
     {
@@ -127,21 +128,22 @@ namespace CohesionTest.Tests
         {
             // arrange 
             var id = Guid.Parse("fe781395-b951-45b3-bb27-73adf05ce615");
-            var updatedServiceRequest = new Models.ServiceRequest
+            var updateServiceRequest = new Models.UpdateServiceRequest
             {
-                Id = Guid.Parse("fe781395-b951-45b3-bb27-73adf05ce615"),
-                BuildingCode = "GDL-01",
                 Description = "Fix the entrance couch, a dog bit a part off.",
                 CurrentStatus = CurrentStatusEnum.InProgress,
-                CreatedBy = "Monica Munoz",
-                CreatedDate = new DateTime(2021, 09, 05),
                 LastModifiedBy = "Building Owner",
                 LastModifiedDate = new DateTime(2021, 09, 05)
             };
 
             // Moq isn't working that great when updating either.
             // act
-            await this.serviceRequestService.UpdateServiceRequestAsync(id, updatedServiceRequest);
+            var updatedServiceRequest = await this.serviceRequestService.UpdateServiceRequestAsync(id, updateServiceRequest);
+
+            // assert
+            Assert.IsNotNull(updatedServiceRequest);
+            Assert.AreEqual("Building Owner", updatedServiceRequest.LastModifiedBy);
+            Assert.AreEqual(CurrentStatusEnum.InProgress, updatedServiceRequest.CurrentStatus);
         }
     }
 }
