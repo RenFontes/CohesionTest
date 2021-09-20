@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CohesionTest.API
@@ -27,7 +29,25 @@ namespace CohesionTest.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.AllowTrailingCommas = true;
+                opt.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
+            // added api versioning
+            services.AddApiVersioning(config =>
+            {
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.ReportApiVersions = true;
+            });
+
+            // Here's where I'd setup CORS, but Paige said I didn't need to worry.
+            // services.AddCors();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CohesionTest.API", Version = "v1" });
@@ -49,6 +69,9 @@ namespace CohesionTest.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // Here's where I'd setup CORS, but Paige said I didn't need to worry.
+            // app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
