@@ -5,12 +5,18 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CohesionTest.API", "CohesionTest.API\CohesionTest.API.csproj", "{2CBE7404-6215-4829-A6F3-DE069AC18E0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CohesionTest.Db", "CohesionTest.Db\CohesionTest.Db.csproj", "{206DF9E0-E439-4928-9303-E38832EE4E09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CohesionTest.Db", "CohesionTest.Db\CohesionTest.Db.csproj", "{206DF9E0-E439-4928-9303-E38832EE4E09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{6CE3CE8C-6FD9-48BA-BD2B-4BB1C7C5DE07}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CohesionTest.Models", "CohesionTest.Models\CohesionTest.Models.csproj", "{73DC05D1-F01A-4243-BB99-09A457B00370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CohesionTest.Services", "CohesionTest.Services\CohesionTest.Services.csproj", "{D90450BF-C9DB-4B08-974F-FDC3877A5F2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CohesionTest.Tests", "CohesionTest.Tests\CohesionTest.Tests.csproj", "{3641AE7A-9EB9-47F3-A576-3773572122BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +32,18 @@ Global
 		{206DF9E0-E439-4928-9303-E38832EE4E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{206DF9E0-E439-4928-9303-E38832EE4E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{206DF9E0-E439-4928-9303-E38832EE4E09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73DC05D1-F01A-4243-BB99-09A457B00370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73DC05D1-F01A-4243-BB99-09A457B00370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73DC05D1-F01A-4243-BB99-09A457B00370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73DC05D1-F01A-4243-BB99-09A457B00370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D90450BF-C9DB-4B08-974F-FDC3877A5F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D90450BF-C9DB-4B08-974F-FDC3877A5F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D90450BF-C9DB-4B08-974F-FDC3877A5F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D90450BF-C9DB-4B08-974F-FDC3877A5F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3641AE7A-9EB9-47F3-A576-3773572122BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3641AE7A-9EB9-47F3-A576-3773572122BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3641AE7A-9EB9-47F3-A576-3773572122BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3641AE7A-9EB9-47F3-A576-3773572122BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

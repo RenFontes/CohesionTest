@@ -1,3 +1,5 @@
+using CohesionTest.Db;
+using CohesionTest.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -47,6 +49,9 @@ namespace CohesionTest.API
 
             // Here's where I'd setup CORS, but Paige said I didn't need to worry.
             // services.AddCors();
+
+            services.AddTransient<CTContext>();
+            services.AddTransient<IServiceRequestService, ServiceRequestService>();
 
             services.AddSwaggerGen(c =>
             {
