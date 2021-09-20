@@ -79,7 +79,7 @@ namespace CohesionTest.Services
                 // TODO: Send email
             }
 
-            serviceRequest = null;
+            dbServiceRequest = null;
 
             var updatedDbServiceRequest = this.ConvertModelToDbModel(serviceRequest);
             this.db.ServiceRequests.Update(updatedDbServiceRequest);

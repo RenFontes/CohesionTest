@@ -14,6 +14,11 @@ namespace CohesionTest.Db
 
         public virtual DbSet<ServiceRequest> ServiceRequests { get; set; }
 
+        public CTContext() : this(null)
+        {
+
+        }
+
         public CTContext(string dbPath = null)
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
