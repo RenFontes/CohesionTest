@@ -77,6 +77,8 @@ namespace CohesionTest.Services
             if (updateServiceRequest.CurrentStatus == CurrentStatusEnum.Complete && ((CurrentStatusEnum)dbServiceRequest.CurrentStatus) != CurrentStatusEnum.Complete)
             {
                 // TODO: Send email
+                // My idea was to use firebase to send the email but that didn't work out.
+                // It seems that the .net firebase admin doesn't have support for that feature (I had previously used that with node)
             }
 
             dbServiceRequest.Description = updateServiceRequest.Description;
